@@ -50,17 +50,6 @@ router.get('/all-users', (req, res)=>{
 
 /* DELETE: Eliminar manga */
 
-/* POST: Crear nuevo usuario */
-router.post('/new-user', (req, res)=>{
-  User.create(req.body)
-  .then((result)=>{
-    res.send(result)
-  })
-  .catch((err)=>{
-    res.send(err)
-  })
-})
-
 
 
 module.exports = router;
