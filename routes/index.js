@@ -7,6 +7,47 @@ router.get('/', (req, res, next) => {
   res.send('Home')
 });
 
+router.post('/leidos', (req, res)=>{
+  User.findByIdAndUpdate(req.body.userID, {$push: {leidos: req.body.mangaID}})
+  .then((result)=>{
+    console.log(result)
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+})
+
+router.post('/leyendo', (req, res)=>{
+  User.findByIdAndUpdate(req.body.userID, {$push: {leyendo: req.body.mangaID}})
+  .then((result)=>{
+    console.log(result)
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+})
+
+router.post('/porLeer', (req, res)=>{
+  User.findByIdAndUpdate(req.body.userID, {$push: {porLeer: req.body.mangaID}})
+  .then((result)=>{
+    console.log(result)
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+})
+
+router.get('/getUser/:id', (req, res)=>{
+
+  User.findById(req.params.id)
+  .then((result)=>{
+    res.send(result)
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+})
+
 /* GET: Ver todos los mangas */
 
 /* GET: Página principal (profile page) donde podré ver los tres grupos */
