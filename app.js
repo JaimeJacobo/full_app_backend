@@ -12,6 +12,7 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
+const cors          = require("cors");
 
 const User = require('./models/User')
 
@@ -56,6 +57,17 @@ app.use((req, res, next) => {
   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
+
+app.use(cors({
+  credentials: true,
+  origin: ["http://localhost:3001"]
+}));
+
+app.use((req, res, next)=>{
+  res.locals.user = req.user;
+  next();
+})
+
 
 // Middleware de Session
 app.use(session({ secret: 'ourPassword', resave: true, saveUninitialized: true }));
