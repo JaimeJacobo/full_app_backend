@@ -17,7 +17,7 @@ const cors          = require("cors");
 const User = require('./models/User')
 
 mongoose
-	.connect('mongodb+srv://jaimejacobo:1234@cluster0.iuw7p.mongodb.net/full_app?retryWrites=true&w=majority', {
+	.connect(`mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.iuw7p.mongodb.net/full_app?retryWrites=true&w=majority`, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	})
@@ -60,7 +60,7 @@ app.use((req, res, next) => {
 
 app.use(cors({
   credentials: true,
-  origin: ["http://localhost:3001"]
+  origin: ["mangas-kawaii.netlify.app"]
 }));
 
 app.use((req, res, next)=>{
