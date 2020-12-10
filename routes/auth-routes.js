@@ -70,7 +70,7 @@ authRoutes.post('/signup', (req, res, next) => {
 });
 
 authRoutes.post('/login', (req, res, next) => {
-
+	console.log('login BACK')
 	passport.authenticate('local', (err, theUser, failureDetails) => {
 		if (err) {
 			res.status(500).json({ message: 'Something went wrong authenticating user' });
