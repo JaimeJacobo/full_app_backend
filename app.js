@@ -17,7 +17,8 @@ const cors          = require("cors");
 const User = require('./models/User')
 
 mongoose
-	.connect(`mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.iuw7p.mongodb.net/full_app?retryWrites=true&w=majority`, {
+	.connect(`mongodb+srv://anton:1234@cluster0.iuw7p.mongodb.net/prueba_2?retryWrites=true&w=majority
+	`, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	})
@@ -52,17 +53,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // CORS middleware
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', "https://mangas-kawaii.netlify.app");
-  // res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-  // res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  // res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', "https://mangas-kawaii.netlify.app");
+//   // res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+//   // res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+//   // res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+//   next();
+// });
 
 app.use(cors({
   credentials: true,
-  origin: ["mangas-kawaii.netlify.app"]
+  origin: ["http://localhost:3001", "https://mangas-kawaii.netlify.app"]
 }));
 
 

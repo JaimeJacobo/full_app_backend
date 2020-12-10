@@ -70,7 +70,6 @@ authRoutes.post('/signup', (req, res, next) => {
 });
 
 authRoutes.post('/login', (req, res, next) => {
-	console.log('login BACK')
 	passport.authenticate('local', (err, theUser, failureDetails) => {
 		if (err) {
 			res.status(500).json({ message: 'Something went wrong authenticating user' });
@@ -90,7 +89,7 @@ authRoutes.post('/login', (req, res, next) => {
 				res.status(500).json({ message: 'Session save went bad.' });
 				return;
 			}
-			console.log(theUser)
+			console.log(theUser);
 			// We are now logged in (that's why we can also send req.user)
 			res.send(theUser);
 		});
