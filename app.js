@@ -12,16 +12,19 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
-const cors          = require("cors");
+const cors = require('cors');
 
-const User = require('./models/User')
+const User = require('./models/User');
 
 mongoose
-	.connect(`mongodb+srv://anton:1234@cluster0.iuw7p.mongodb.net/prueba_2?retryWrites=true&w=majority
-	`, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true
-	})
+	.connect(
+		`mongodb+srv://anton:1234@cluster0.iuw7p.mongodb.net/prueba_2?retryWrites=true&w=majority
+	`,
+		{
+			useNewUrlParser: true,
+			useUnifiedTopology: true
+		}
+	)
 	.then((x) => {
 		console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`);
 	})
@@ -46,7 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // Middleware de Session
-app.use(session({ secret: 'ourPassword', resave: true, saveUninitialized: true }));
+app.use(session({ secret: 'ourPassword', resave: false, saveUninitialized: false }));
 
 //Middleware de passport
 app.use(passport.initialize());
@@ -61,17 +64,17 @@ app.use(passport.session());
 //   next();
 // });
 
-app.use(cors({
-  credentials: true,
-  origin: ["http://localhost:3001", "https://mangas-kawaii.netlify.app"]
-}));
+app.use(
+	cors({
+		credentials: true,
+		origin: [ 'http://localhost:3001', 'https://mangas-kawaii.netlify.app' ]
+	})
+);
 
-
-app.use((req, res, next)=>{
-  res.locals.user = req.user;
-  next();
-})
-
+app.use((req, res, next) => {
+	res.locals.user = req.user;
+	next();
+});
 
 app.use(
 	require('node-sass-middleware')({
@@ -80,17 +83,6 @@ app.use(
 		sourceMap: true
 	})
 );
-
-
-//Middleware para serializar al usuario
-passport.serializeUser((user, callback) => {
-	callback(null, user._id);
-});
-
-//Middleware para des-serializar al usuario
-passport.deserializeUser((id, callback) => {
-	User.findById(id).then((user) => callback(null, user)).catch((err) => callback(err));
-});
 
 //Middleware del Strategy
 passport.use(
@@ -111,9 +103,15 @@ passport.use(
 	})
 );
 
+//Middleware para serializar al usuario
+passport.serializeUser((user, callback) => {
+	callback(null, user._id);
+});
 
-
-
+//Middleware para des-serializar al usuario
+passport.deserializeUser((id, callback) => {
+	User.findById(id).then((user) => callback(null, user)).catch((err) => callback(err));
+});
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
