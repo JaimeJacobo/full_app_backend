@@ -39,7 +39,29 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Express View engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+
+// Middleware de Session
+app.use(session({ secret: 'ourPassword', resave: true, saveUninitialized: true }));
+
+//Middleware de passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(cors({
+  credentials: true,
+  origin: ["mangas-kawaii.netlify.app"]
+}));
+
+
+app.use((req, res, next)=>{
+  res.locals.user = req.user;
+  next();
+})
+
 
 app.use(
 	require('node-sass-middleware')({
@@ -50,27 +72,14 @@ app.use(
 );
 
 // CORS middleware
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', "https://mangas-kawaii.netlify.app");
-  res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', "https://mangas-kawaii.netlify.app");
+//   res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+//   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+//   next();
+// });
 
-app.use(cors({
-  credentials: true,
-  origin: ["mangas-kawaii.netlify.app"]
-}));
-
-app.use((req, res, next)=>{
-  res.locals.user = req.user;
-  next();
-})
-
-
-// Middleware de Session
-app.use(session({ secret: 'ourPassword', resave: true, saveUninitialized: true }));
 
 //Middleware para serializar al usuario
 passport.serializeUser((user, callback) => {
@@ -84,7 +93,7 @@ passport.deserializeUser((id, callback) => {
 
 //Middleware del Strategy
 passport.use(
-	new LocalStrategy({ passReqToCallback: true }, (req, username, password, next) => {
+	new LocalStrategy((username, password, next) => {
 		User.findOne({ username })
 			.then((user) => {
 				if (!user) {
@@ -101,14 +110,9 @@ passport.use(
 	})
 );
 
-//Middleware de passport
-app.use(passport.initialize());
-app.use(passport.session());
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+
+
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
