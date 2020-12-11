@@ -13,6 +13,8 @@ const cors = require('cors');
 
 require('./config/passportConfig');
 
+
+
 mongoose
 	.connect(`mongodb+srv://jaimejacobo:1234@cluster0.iuw7p.mongodb.net/prueba_2?retryWrites=true&w=majority`, {
 		useNewUrlParser: true,
@@ -35,6 +37,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.enable('trust proxy'); // add this line
+
+// app.use(()=>'Set-Cookie: cross-site-cookie=name; SameSite=None; Secure')
+
 // app.use(require('node-sass-middleware')({
 //   src:  path.join(__dirname, 'public'),
 //   dest: path.join(__dirname, 'public'),
@@ -49,7 +55,8 @@ app.use(
 	session({
 		secret: 'our-passport-local-strategy-app',
 		resave: true,
-		saveUninitialized: true
+		saveUninitialized: true,
+		proxy: true
 	})
 );
 
