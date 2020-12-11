@@ -7,17 +7,16 @@ passport.serializeUser((user, cb) => {
 	cb(null, user._id);
 });
 
-passport.deserializeUser((id, cb) => {
-	User.findById(id, (err, user) => {
-		if (err) {
-			return cb(err);
-		}
-		cb(null, user);
-	});
+passport.deserializeUser((id, callback) => {
+	User.findById(id)
+		.then((user) => {
+			callback(null, user);
+		})
+		.catch((err) => callback(err));
 });
 
 passport.use(
-	new LocalStrategy((username, password, next) => {
+	new LocalStrategy({ passReqToCallback: true }, (req, username, password, next) => {
 		User.findOne({ username }, (err, user) => {
 			if (err) {
 				return next(err);
