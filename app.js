@@ -49,7 +49,7 @@ app.use(
 
 app.use(
 	session({
-		secret: 'our-passport-local-strategy-app',
+		secret: 'prueba_2',
 		resave: true,
 		saveUninitialized: true
 	})
