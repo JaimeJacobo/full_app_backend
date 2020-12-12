@@ -10,21 +10,23 @@ const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const cors = require('cors');
-const flash = require('connect-flash')
+const flash = require('connect-flash');
 
 //1. Databse configuration
 const mongoose = require('mongoose');
 
 mongoose
-	.connect(`mongodb+srv://jaimejacobo:1234@cluster0.iuw7p.mongodb.net/prueba_2?retryWrites=true&w=majority`, {
+	.connect('mongodb+srv://jaimejacobo:1234@cluster0.iuw7p.mongodb.net/oscar_prueba?retryWrites=true&w=majority', {
+		useCreateIndex: true,
 		useNewUrlParser: true,
-		useUnifiedTopology: true
+		useUnifiedTopology: true,
+		useFindAndModify: false
 	})
-	.then((x) => {
-		console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`);
+	.then((connection) => {
+		console.log('Connected to Mongo!');
 	})
 	.catch((err) => {
-		console.error('Error connecting to mongo', err);
+		console.log('error connecting to Mongo: ', err);
 	});
 
 const app = express();
