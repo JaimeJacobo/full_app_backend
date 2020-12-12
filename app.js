@@ -43,7 +43,7 @@ app.use(flash());
 app.use(
 	cors({
 		credentials: true,
-		origin: [ 'http://localhost:3000' ]
+		origin: [ 'https://mangas-kawaii.netlify.app' ]
 	})
 );
 
@@ -51,7 +51,7 @@ app.use(
 
 app.use(
 	session({
-		secret: 'prueba_2',
+		secret: 'oscar_prueba',
 		resave: true,
 		saveUninitialized: true
 	})
