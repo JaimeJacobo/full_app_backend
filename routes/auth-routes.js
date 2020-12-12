@@ -112,14 +112,14 @@ authRoutes.post('/logout', (req, res, next) => {
 	res.status(200).json({ message: 'Log out success!' });
 });
 
-// authRoutes.get('/loggedin', (req, res, next) => {
-// 	// req.isAuthenticated() is defined by passport
-// 	if (req.isAuthenticated()) {
-// 		console.log('Persona autentificada')
-// 		res.status(200).json(req.user);
-// 		return;
-// 	}
-// 	res.json({});
-// });
+authRoutes.get('/loggedin', (req, res, next) => {
+	// req.isAuthenticated() is defined by passport
+	if (req.isAuthenticated()) {
+		console.log('Persona autentificada')
+		res.status(200).json(req.user);
+		return;
+	}
+	res.json({});
+});
 
 module.exports = authRoutes;
